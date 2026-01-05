@@ -19,6 +19,7 @@ function App() {
     isSelected,
     clearAll,
     canSelectMore,
+    initializeWithVenue,
   } = useSeatSelection();
 
   // Load venue data
@@ -26,13 +27,15 @@ function App() {
     VenueService.loadVenue()
       .then((loadedVenue) => {
         setVenue(loadedVenue);
+        // Restore persisted selection after venue loads
+        initializeWithVenue(loadedVenue);
         setLoading(false);
       })
       .catch((err) => {
         setError(err instanceof Error ? err.message : 'Failed to load venue data');
         setLoading(false);
       });
-  }, []);
+  }, [initializeWithVenue]);
 
   const handleSeatClick = useCallback(
     (seat: SelectedSeat) => {
@@ -95,12 +98,12 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm px-6 py-5">
+      <header className="bg-white border-b border-gray-200 shadow-sm px-4 sm:px-6 py-4 sm:py-5">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
             {venue.name}
           </h1>
-          <div className="flex items-center gap-6 text-sm text-gray-600">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-gray-600">
             <p className="flex items-center gap-2">
               <span className="font-semibold text-gray-900">Select up to {maxSelections} seats</span>
             </p>
@@ -117,9 +120,9 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 p-6 overflow-hidden">
+      <main className="flex-1 max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-4 sm:gap-6 p-4 sm:p-6">
         {/* Seating Map Section */}
-        <div className="bg-white rounded-lg shadow p-6 overflow-hidden">
+        <div className="bg-white rounded-lg shadow p-3 sm:p-6 overflow-hidden min-h-[500px]">
           <SeatingMap
             venue={venue}
             selectedSeatIds={selectedSeatIds}
@@ -129,7 +132,7 @@ function App() {
         </div>
 
         {/* Sidebar */}
-        <aside className="flex flex-col gap-6 overflow-y-auto">
+        <aside className="flex flex-col gap-4 sm:gap-6 lg:overflow-y-auto">
           <SeatDetails seat={focusedSeat} />
           <SelectionSummary
             selectedSeats={selectedSeats}

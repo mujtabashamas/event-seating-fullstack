@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useRef } from 'react';
 import type { Venue, SelectedSeat } from '../../types/index.js';
 import { Seat } from '../Seat/Seat.js';
 
@@ -15,6 +15,67 @@ function SeatingMapComponent({
   onSeatClick,
   onSeatFocus,
 }: SeatingMapProps) {
+  const seatRefs = useRef<Map<string, SVGGElement>>(new Map());
+
+  // Find next seat in a direction for keyboard navigation
+  const findNextSeat = useCallback((currentSeatId: string, direction: 'ArrowUp' | 'ArrowDown' | 'ArrowLeft' | 'ArrowRight'): string | null => {
+    let currentSeat: { sectionId: string; rowIndex: number; col: number } | null = null;
+    let currentSection: typeof venue.sections[0] | null = null;
+    let currentRow: typeof venue.sections[0]['rows'][0] | null = null;
+
+    // Find current seat
+    for (const section of venue.sections) {
+      for (const row of section.rows) {
+        const seat = row.seats.find(s => s.id === currentSeatId);
+        if (seat) {
+          currentSeat = { sectionId: section.id, rowIndex: row.index, col: seat.col };
+          currentSection = section;
+          currentRow = row;
+          break;
+        }
+      }
+      if (currentSeat) break;
+    }
+
+    if (!currentSeat || !currentSection || !currentRow) return null;
+
+    const { sectionId, rowIndex, col } = currentSeat;
+    const section = venue.sections.find(s => s.id === sectionId);
+    if (!section) return null;
+
+    let nextSeatId: string | null = null;
+
+    switch (direction) {
+      case 'ArrowLeft':
+        // Find seat to the left in same row
+        const leftSeat = currentRow.seats.find(s => s.col === col - 1);
+        if (leftSeat && leftSeat.status === 'available') nextSeatId = leftSeat.id;
+        break;
+      case 'ArrowRight':
+        // Find seat to the right in same row
+        const rightSeat = currentRow.seats.find(s => s.col === col + 1);
+        if (rightSeat && rightSeat.status === 'available') nextSeatId = rightSeat.id;
+        break;
+      case 'ArrowUp':
+        // Find seat in row above (same column)
+        const prevRow = section.rows.find(r => r.index === rowIndex - 1);
+        if (prevRow) {
+          const upSeat = prevRow.seats.find(s => s.col === col);
+          if (upSeat && upSeat.status === 'available') nextSeatId = upSeat.id;
+        }
+        break;
+      case 'ArrowDown':
+        // Find seat in row below (same column)
+        const nextRow = section.rows.find(r => r.index === rowIndex + 1);
+        if (nextRow) {
+          const downSeat = nextRow.seats.find(s => s.col === col);
+          if (downSeat && downSeat.status === 'available') nextSeatId = downSeat.id;
+        }
+        break;
+    }
+
+    return nextSeatId;
+  }, [venue]);
   const handleSeatClick = useCallback(
     (seatId: string, sectionId: string, rowIndex: number) => {
       const section = venue.sections.find((s) => s.id === sectionId);
@@ -57,6 +118,25 @@ function SeatingMapComponent({
     [venue, onSeatFocus]
   );
 
+  const handleSeatKeyDown = useCallback(
+    (e: React.KeyboardEvent, seatId: string) => {
+      if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        return;
+      }
+
+      e.preventDefault();
+      const nextSeatId = findNextSeat(seatId, e.key as 'ArrowUp' | 'ArrowDown' | 'ArrowLeft' | 'ArrowRight');
+      
+      if (nextSeatId) {
+        const nextSeatElement = seatRefs.current.get(nextSeatId);
+        if (nextSeatElement) {
+          nextSeatElement.focus();
+        }
+      }
+    },
+    [findNextSeat]
+  );
+
   return (
     <div className="w-full h-full flex flex-col">
       {/* Stage indicator */}
@@ -67,10 +147,10 @@ function SeatingMapComponent({
       </div>
       
       {/* Seating map */}
-      <div className="flex-1 overflow-auto bg-gray-50 rounded-lg border-2 border-gray-200 relative">
+      <div className="flex-1 overflow-auto bg-gray-50 rounded-lg border-2 border-gray-200 relative touch-pan-x touch-pan-y">
         <svg
-          className="w-full min-h-[500px] block"
-          viewBox={`0 0 ${venue.map.width} ${venue.map.height}`}
+          className="w-full h-auto min-h-[400px] sm:min-h-[500px] lg:h-[700px] block"
+          viewBox={`0 0 ${venue.map.width * 0.8} ${venue.map.height * 0.8}`}
           preserveAspectRatio="xMidYMid meet"
           aria-label={`Seating map for ${venue.name}`}
           role="img"
@@ -91,8 +171,8 @@ function SeatingMapComponent({
                 {/* Section label */}
                 <text
                   x={sectionCenterX}
-                  y={sectionTopY - 30}
-                  fontSize="16"
+                  y={sectionTopY - 50}
+                  fontSize="20"
                   fontWeight="bold"
                   fill="#374151"
                   textAnchor="middle"
@@ -110,9 +190,9 @@ function SeatingMapComponent({
                     <g key={`${section.id}-${row.index}`}>
                       {/* Left row number */}
                       <text
-                        x={firstSeatInRow.x - 35}
-                        y={firstSeatInRow.y + 3}
-                        fontSize="12"
+                        x={firstSeatInRow.x - 50}
+                        y={firstSeatInRow.y + 5}
+                        fontSize="16"
                         fontWeight="600"
                         fill="#6b7280"
                         textAnchor="middle"
@@ -129,14 +209,22 @@ function SeatingMapComponent({
                           isSelected={selectedSeatIds.has(seat.id)}
                           onClick={() => handleSeatClick(seat.id, section.id, row.index)}
                           onFocus={() => handleSeatFocus(seat.id, section.id, row.index)}
+                          onKeyDown={(e) => handleSeatKeyDown(e, seat.id)}
+                          seatRef={(ref) => {
+                            if (ref) {
+                              seatRefs.current.set(seat.id, ref);
+                            } else {
+                              seatRefs.current.delete(seat.id);
+                            }
+                          }}
                         />
                       ))}
                       
                       {/* Right row number */}
                       <text
-                        x={lastSeatInRow.x + 35}
-                        y={lastSeatInRow.y + 3}
-                        fontSize="12"
+                        x={lastSeatInRow.x + 50}
+                        y={lastSeatInRow.y + 5}
+                        fontSize="16"
                         fontWeight="600"
                         fill="#6b7280"
                         textAnchor="middle"

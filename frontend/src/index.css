@@ -15,4 +15,17 @@
     width: 100%;
     min-height: 100vh;
   }
+
+  /* Accessibility: Focus styles for keyboard navigation */
+  *:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  /* Ensure SVG elements can receive focus */
+  svg g[tabindex="0"]:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
 }

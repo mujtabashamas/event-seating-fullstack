@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useRef, useEffect } from 'react';
 import type { Seat as SeatType } from '../../types/index.js';
 
 interface SeatProps {
@@ -7,11 +7,32 @@ interface SeatProps {
   onClick: () => void;
   onFocus?: () => void;
   onBlur?: () => void;
+  onKeyDown?: (e: React.KeyboardEvent) => void;
+  seatRef?: (ref: SVGGElement | null) => void;
 }
 
-function SeatComponent({ seat, isSelected, onClick, onFocus, onBlur }: SeatProps) {
+function SeatComponent({ seat, isSelected, onClick, onFocus, onBlur, onKeyDown, seatRef: setSeatRef }: SeatProps) {
   const isInteractive = seat.status === 'available';
   const statusLabel = seat.status.charAt(0).toUpperCase() + seat.status.slice(1);
+  const seatRef = useRef<SVGGElement>(null);
+
+  useEffect(() => {
+    if (setSeatRef) {
+      setSeatRef(seatRef.current);
+    }
+  }, [setSeatRef]);
+
+  // Handle keyboard events
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!isInteractive) return;
+
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClick();
+    } else if (onKeyDown) {
+      onKeyDown(e);
+    }
+  };
 
   const getColors = () => {
     if (isSelected) {
@@ -37,26 +58,26 @@ function SeatComponent({ seat, isSelected, onClick, onFocus, onBlur }: SeatProps
   };
 
   const colors = getColors();
-  const scale = isSelected ? 1.15 : 1;
+  const baseScale = 2;
 
   return (
     <g
+      ref={seatRef}
       className={`
-        transition-all duration-200
-        ${isInteractive ? 'cursor-pointer' : 'cursor-not-allowed'}
+        transition-opacity duration-150
+        ${isInteractive ? 'cursor-pointer hover:opacity-80 focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2' : 'cursor-not-allowed opacity-70'}
       `}
-      transform={`translate(${seat.x}, ${seat.y}) scale(${scale})`}
+      transform={`translate(${seat.x}, ${seat.y}) scale(${baseScale})`}
       onClick={isInteractive ? onClick : undefined}
       onFocus={isInteractive ? onFocus : undefined}
       onBlur={onBlur}
+      onKeyDown={handleKeyDown}
       tabIndex={isInteractive ? 0 : -1}
-      aria-label={`Seat ${seat.id}, ${statusLabel}, Price tier ${seat.priceTier}`}
+      aria-label={`Seat ${seat.id}, ${statusLabel}, Price tier ${seat.priceTier}. ${isSelected ? 'Selected' : 'Available'}. Press Enter or Space to ${isSelected ? 'deselect' : 'select'}`}
       role={isInteractive ? 'button' : undefined}
       aria-pressed={isSelected ? 'true' : 'false'}
       style={{
-        filter: isSelected 
-          ? 'drop-shadow(0 2px 6px rgba(59, 130, 246, 0.5))' 
-          : 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2))',
+        filter: 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2))',
       }}
     >
       {/* Seat base/legs */}
@@ -112,56 +133,6 @@ function SeatComponent({ seat, isSelected, onClick, onFocus, onBlur }: SeatProps
         rx="0.5"
         fill={colors.dark}
       />
-
-      {/* Selection indicator */}
-      {isSelected && (
-        <>
-          <rect
-            x="-9"
-            y="-10"
-            width="18"
-            height="18"
-            rx="3"
-            fill="none"
-            stroke="#3b82f6"
-            strokeWidth="1.5"
-            strokeDasharray="2,2"
-          />
-          <circle
-            cx="6"
-            cy="-7"
-            r="2.5"
-            fill="#3b82f6"
-            stroke="#fff"
-            strokeWidth="0.5"
-          >
-            <title>Selected</title>
-          </circle>
-          <text
-            x="6"
-            y="-6"
-            fontSize="3"
-            fontWeight="bold"
-            fill="#fff"
-            textAnchor="middle"
-          >
-            ✓
-          </text>
-        </>
-      )}
-      
-      {/* Hover effect indicator - only for interactive seats */}
-      {isInteractive && (
-        <rect
-          x="-9"
-          y="-10"
-          width="18"
-          height="18"
-          rx="3"
-          fill="transparent"
-          className="hover:fill-white hover:fill-opacity-20 transition-all"
-        />
-      )}
     </g>
   );
 }
