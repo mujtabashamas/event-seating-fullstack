@@ -1,0 +1,1510 @@
+{
+	"info": {
+		"_postman_id": "637b2cf0-41bc-4aed-b139-6eaedcae1491",
+		"name": "User Data API - Advanced Caching & Monitoring",
+		"description": "Complete API collection with advanced caching, rate limiting, async processing, and Prometheus metrics",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37273540",
+		"_collection_link": "https://lunar-rocket-61138.postman.co/workspace/Aiovix~1949f9fd-bd21-43fd-938d-b546b05fd7a0/collection/37273540-637b2cf0-41bc-4aed-b139-6eaedcae1491?action=share&source=collection_link&creator=37273540"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "Basic Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"health"
+							]
+						},
+						"description": "Simple health check to verify API is running"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/health",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"health"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "9"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "2026-01-05T09:51:54.674Z"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "105"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"69-kltL0ylRMyhzQib0VuL9fF6wsrk\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:50:54 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"ok\",\n    \"timestamp\": \"2026-01-05T09:50:54.675Z\",\n    \"uptime\": 134.176268125,\n    \"environment\": \"development\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Detailed Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/health/detailed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"health",
+								"detailed"
+							]
+						},
+						"description": "Detailed health check with service status, cache stats, and memory usage"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/health/detailed",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"health",
+										"detailed"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "8"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "2026-01-05T09:51:54.674Z"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "323"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"143-7/vitraQkk2P9CumfWyGwaaz+Zs\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:51:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"ok\",\n    \"timestamp\": \"2026-01-05T09:51:04.042Z\",\n    \"uptime\": 143.542728208,\n    \"environment\": \"development\",\n    \"version\": \"v1\",\n    \"services\": {\n        \"cache\": {\n            \"status\": \"operational\",\n            \"stats\": {\n                \"size\": 0,\n                \"hits\": 0,\n                \"misses\": 0,\n                \"hitRate\": \"0%\"\n            }\n        },\n        \"database\": {\n            \"status\": \"operational\",\n            \"type\": \"in-memory\"\n        }\n    },\n    \"memory\": {\n        \"used\": \"10.40 MB\",\n        \"total\": \"13.13 MB\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get User 1 (Cache Miss)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"1"
+							]
+						},
+						"description": "First request - should take ~200ms (simulated database delay)"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/users/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "7"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "2026-01-05T09:51:54.674Z"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "53"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"35-12z8ERKgT9UgGsG5G6psCuhii7k\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:51:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get User 1 (Cache Hit)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"1"
+							]
+						},
+						"description": "Second request - should be fast <10ms (from cache)"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/users/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "9"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "2026-01-05T09:56:09.982Z"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "53"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"35-12z8ERKgT9UgGsG5G6psCuhii7k\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:55:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get User 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"2"
+							]
+						},
+						"description": "Get user 2 from the database"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/users/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "8"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "2026-01-05T09:56:09.982Z"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"37-/k3Ws29sZbU/R5pkkWcf9nKmQ04\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:55:20 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"name\": \"Jane Smith\",\n    \"email\": \"jane@example.com\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get User 3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"3"
+							]
+						},
+						"description": "Get user 3 from the database"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/users/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "7"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "2026-01-05T09:56:09.982Z"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "59"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3b-+uxDgyc8hLETJP9EPfjJDsgYGq4\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:55:28 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3,\n    \"name\": \"Alice Johnson\",\n    \"email\": \"alice@example.com\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Non-Existent User (404)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"999"
+							]
+						},
+						"description": "Should return 404 Not Found"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/users/999",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"999"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "6"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "2026-01-05T09:56:09.982Z"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a-hq/hT0ORGTkTfyRpVCZ/JB/r8Eg\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:55:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"User not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Invalid User ID (400)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/invalid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"invalid"
+							]
+						},
+						"description": "Should return 400 Bad Request with validation error"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/users/invalid",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"invalid"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "5"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "2026-01-05T09:56:09.982Z"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "56"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"38-+pG+aXRbsQzUs/uVFpJ8XKQTCiE\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:55:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Invalid user ID. Must be a positive integer.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create New User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Bob Wilson\",\n  \"email\": \"bob@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						},
+						"description": "Create a new user - will be automatically cached"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Bob Wilson\",\n  \"email\": \"bob@example.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "9"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "2026-01-05T09:58:32.104Z"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "54"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"36-ZH7nPRyS+NYpWxjtQjFALCFVUS8\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:57:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 4,\n    \"name\": \"Bob Wilson\",\n    \"email\": \"bob@example.com\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create User - Invalid Email",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Invalid User\",\n  \"email\": \"not-an-email\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						},
+						"description": "Should return 400 with validation error"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Invalid User\",\n  \"email\": \"not-an-email\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/v1/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "4"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "2026-01-05T09:56:09.982Z"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "32"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20-ZXxU9PuyF+UpUGdndifSZ6AtgHo\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:56:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Invalid email format\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Cache Management",
+			"item": [
+				{
+					"name": "Get Cache Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/cache/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"cache",
+								"status"
+							]
+						},
+						"description": "View cache statistics: size, hits, misses, hit rate, average response time"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/cache/status",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"cache",
+										"status"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "3"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "2026-01-05T09:57:31.779Z"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"53-4K0n65lWb0GJT5JpABoQ3tAkub8\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:56:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"size\": 1,\n    \"hits\": 4,\n    \"misses\": 12,\n    \"hitRate\": 25,\n    \"averageResponseTime\": 116.834228515625\n}"
+						}
+					]
+				},
+				{
+					"name": "Clear Cache",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/cache",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"cache"
+							]
+						},
+						"description": "Clear all cached data"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/cache",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"cache"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "2"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "2026-01-05T09:57:31.779Z"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "40"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"28-s3TK9zx85d1Fz5nKrVT8ntBYW/M\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:56:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Cache cleared successfully\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Monitoring (Prometheus)",
+			"item": [
+				{
+					"name": "Get All Metrics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/metrics",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"metrics"
+							]
+						},
+						"description": "Prometheus metrics endpoint - HTTP requests, cache performance, database queries, etc."
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/metrics",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"metrics"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "4"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "2026-01-05T09:57:31.779Z"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8; version=0.0.4"
+								},
+								{
+									"key": "Content-Length",
+									"value": "21020"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"521c-k5yIPocz6lfqzMKbL0OYc9zMuf0\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:56:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "# HELP process_cpu_user_seconds_total Total user CPU time spent in seconds.\n# TYPE process_cpu_user_seconds_total counter\nprocess_cpu_user_seconds_total 1.394326\n\n# HELP process_cpu_system_seconds_total Total system CPU time spent in seconds.\n# TYPE process_cpu_system_seconds_total counter\nprocess_cpu_system_seconds_total 0.702477\n\n# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.\n# TYPE process_cpu_seconds_total counter\nprocess_cpu_seconds_total 2.096803\n\n# HELP process_start_time_seconds Start time of the process since unix epoch in seconds.\n# TYPE process_start_time_seconds gauge\nprocess_start_time_seconds 1767606521\n\n# HELP process_resident_memory_bytes Resident memory size in bytes.\n# TYPE process_resident_memory_bytes gauge\nprocess_resident_memory_bytes 100089856\n\n# HELP nodejs_eventloop_lag_seconds Lag of event loop in seconds.\n# TYPE nodejs_eventloop_lag_seconds gauge\nnodejs_eventloop_lag_seconds 0\n\n# HELP nodejs_eventloop_lag_min_seconds The minimum recorded event loop delay.\n# TYPE nodejs_eventloop_lag_min_seconds gauge\nnodejs_eventloop_lag_min_seconds 0.006885376\n\n# HELP nodejs_eventloop_lag_max_seconds The maximum recorded event loop delay.\n# TYPE nodejs_eventloop_lag_max_seconds gauge\nnodejs_eventloop_lag_max_seconds 0.022085631\n\n# HELP nodejs_eventloop_lag_mean_seconds The mean of the recorded event loop delays.\n# TYPE nodejs_eventloop_lag_mean_seconds gauge\nnodejs_eventloop_lag_mean_seconds 0.011038082937014353\n\n# HELP nodejs_eventloop_lag_stddev_seconds The standard deviation of the recorded event loop delays.\n# TYPE nodejs_eventloop_lag_stddev_seconds gauge\nnodejs_eventloop_lag_stddev_seconds 0.0005942421493926642\n\n# HELP nodejs_eventloop_lag_p50_seconds The 50th percentile of the recorded event loop delays.\n# TYPE nodejs_eventloop_lag_p50_seconds gauge\nnodejs_eventloop_lag_p50_seconds 0.011059199\n\n# HELP nodejs_eventloop_lag_p90_seconds The 90th percentile of the recorded event loop delays.\n# TYPE nodejs_eventloop_lag_p90_seconds gauge\nnodejs_eventloop_lag_p90_seconds 0.011239423\n\n# HELP nodejs_eventloop_lag_p99_seconds The 99th percentile of the recorded event loop delays.\n# TYPE nodejs_eventloop_lag_p99_seconds gauge\nnodejs_eventloop_lag_p99_seconds 0.013672447\n\n# HELP nodejs_active_resources Number of active resources that are currently keeping the event loop alive, grouped by async resource type.\n# TYPE nodejs_active_resources gauge\nnodejs_active_resources{type=\"PipeWrap\"} 2\nnodejs_active_resources{type=\"TCPServerWrap\"} 1\nnodejs_active_resources{type=\"TCPSocketWrap\"} 1\nnodejs_active_resources{type=\"Timeout\"} 2\nnodejs_active_resources{type=\"Immediate\"} 1\n\n# HELP nodejs_active_resources_total Total number of active resources.\n# TYPE nodejs_active_resources_total gauge\nnodejs_active_resources_total 7\n\n# HELP nodejs_active_handles Number of active libuv handles grouped by handle type. Every handle type is C++ class name.\n# TYPE nodejs_active_handles gauge\nnodejs_active_handles{type=\"Socket\"} 3\nnodejs_active_handles{type=\"Server\"} 1\n\n# HELP nodejs_active_handles_total Total number of active handles.\n# TYPE nodejs_active_handles_total gauge\nnodejs_active_handles_total 4\n\n# HELP nodejs_active_requests Number of active libuv requests grouped by request type. Every request type is C++ class name.\n# TYPE nodejs_active_requests gauge\n\n# HELP nodejs_active_requests_total Total number of active requests.\n# TYPE nodejs_active_requests_total gauge\nnodejs_active_requests_total 0\n\n# HELP nodejs_heap_size_total_bytes Process heap size from Node.js in bytes.\n# TYPE nodejs_heap_size_total_bytes gauge\nnodejs_heap_size_total_bytes 14286848\n\n# HELP nodejs_heap_size_used_bytes Process heap size used from Node.js in bytes.\n# TYPE nodejs_heap_size_used_bytes gauge\nnodejs_heap_size_used_bytes 12554032\n\n# HELP nodejs_external_memory_bytes Node.js external memory size in bytes.\n# TYPE nodejs_external_memory_bytes gauge\nnodejs_external_memory_bytes 2826266\n\n# HELP nodejs_heap_space_size_total_bytes Process heap space size total from Node.js in bytes.\n# TYPE nodejs_heap_space_size_total_bytes gauge\nnodejs_heap_space_size_total_bytes{space=\"read_only\"} 0\nnodejs_heap_space_size_total_bytes{space=\"new\"} 1048576\nnodejs_heap_space_size_total_bytes{space=\"old\"} 9715712\nnodejs_heap_space_size_total_bytes{space=\"code\"} 1572864\nnodejs_heap_space_size_total_bytes{space=\"shared\"} 0\nnodejs_heap_space_size_total_bytes{space=\"trusted\"} 1671168\nnodejs_heap_space_size_total_bytes{space=\"new_large_object\"} 0\nnodejs_heap_space_size_total_bytes{space=\"large_object\"} 278528\nnodejs_heap_space_size_total_bytes{space=\"code_large_object\"} 0\nnodejs_heap_space_size_total_bytes{space=\"shared_large_object\"} 0\nnodejs_heap_space_size_total_bytes{space=\"trusted_large_object\"} 0\n\n# HELP nodejs_heap_space_size_used_bytes Process heap space size used from Node.js in bytes.\n# TYPE nodejs_heap_space_size_used_bytes gauge\nnodejs_heap_space_size_used_bytes{space=\"read_only\"} 0\nnodejs_heap_space_size_used_bytes{space=\"new\"} 494568\nnodejs_heap_space_size_used_bytes{space=\"old\"} 9211568\nnodejs_heap_space_size_used_bytes{space=\"code\"} 1090464\nnodejs_heap_space_size_used_bytes{space=\"shared\"} 0\nnodejs_heap_space_size_used_bytes{space=\"trusted\"} 1502216\nnodejs_heap_space_size_used_bytes{space=\"new_large_object\"} 0\nnodejs_heap_space_size_used_bytes{space=\"large_object\"} 262160\nnodejs_heap_space_size_used_bytes{space=\"code_large_object\"} 0\nnodejs_heap_space_size_used_bytes{space=\"shared_large_object\"} 0\nnodejs_heap_space_size_used_bytes{space=\"trusted_large_object\"} 0\n\n# HELP nodejs_heap_space_size_available_bytes Process heap space size available from Node.js in bytes.\n# TYPE nodejs_heap_space_size_available_bytes gauge\nnodejs_heap_space_size_available_bytes{space=\"read_only\"} 0\nnodejs_heap_space_size_available_bytes{space=\"new\"} 536344\nnodejs_heap_space_size_available_bytes{space=\"old\"} 318576\nnodejs_heap_space_size_available_bytes{space=\"code\"} 187488\nnodejs_heap_space_size_available_bytes{space=\"shared\"} 0\nnodejs_heap_space_size_available_bytes{space=\"trusted\"} 137992\nnodejs_heap_space_size_available_bytes{space=\"new_large_object\"} 1048576\nnodejs_heap_space_size_available_bytes{space=\"large_object\"} 0\nnodejs_heap_space_size_available_bytes{space=\"code_large_object\"} 0\nnodejs_heap_space_size_available_bytes{space=\"shared_large_object\"} 0\nnodejs_heap_space_size_available_bytes{space=\"trusted_large_object\"} 0\n\n# HELP nodejs_version_info Node.js version info.\n# TYPE nodejs_version_info gauge\nnodejs_version_info{version=\"v22.18.0\",major=\"22\",minor=\"18\",patch=\"0\"} 1\n\n# HELP nodejs_gc_duration_seconds Garbage collection duration by kind, one of major, minor, incremental or weakcb.\n# TYPE nodejs_gc_duration_seconds histogram\nnodejs_gc_duration_seconds_bucket{le=\"0.001\",kind=\"minor\"} 5\nnodejs_gc_duration_seconds_bucket{le=\"0.01\",kind=\"minor\"} 7\nnodejs_gc_duration_seconds_bucket{le=\"0.1\",kind=\"minor\"} 7\nnodejs_gc_duration_seconds_bucket{le=\"1\",kind=\"minor\"} 7\nnodejs_gc_duration_seconds_bucket{le=\"2\",kind=\"minor\"} 7\nnodejs_gc_duration_seconds_bucket{le=\"5\",kind=\"minor\"} 7\nnodejs_gc_duration_seconds_bucket{le=\"+Inf\",kind=\"minor\"} 7\nnodejs_gc_duration_seconds_sum{kind=\"minor\"} 0.009691458000801505\nnodejs_gc_duration_seconds_count{kind=\"minor\"} 7\nnodejs_gc_duration_seconds_bucket{le=\"0.001\",kind=\"incremental\"} 3\nnodejs_gc_duration_seconds_bucket{le=\"0.01\",kind=\"incremental\"} 3\nnodejs_gc_duration_seconds_bucket{le=\"0.1\",kind=\"incremental\"} 3\nnodejs_gc_duration_seconds_bucket{le=\"1\",kind=\"incremental\"} 3\nnodejs_gc_duration_seconds_bucket{le=\"2\",kind=\"incremental\"} 3\nnodejs_gc_duration_seconds_bucket{le=\"5\",kind=\"incremental\"} 3\nnodejs_gc_duration_seconds_bucket{le=\"+Inf\",kind=\"incremental\"} 3\nnodejs_gc_duration_seconds_sum{kind=\"incremental\"} 0.0015157499997876583\nnodejs_gc_duration_seconds_count{kind=\"incremental\"} 3\nnodejs_gc_duration_seconds_bucket{le=\"0.001\",kind=\"major\"} 0\nnodejs_gc_duration_seconds_bucket{le=\"0.01\",kind=\"major\"} 3\nnodejs_gc_duration_seconds_bucket{le=\"0.1\",kind=\"major\"} 3\nnodejs_gc_duration_seconds_bucket{le=\"1\",kind=\"major\"} 3\nnodejs_gc_duration_seconds_bucket{le=\"2\",kind=\"major\"} 3\nnodejs_gc_duration_seconds_bucket{le=\"5\",kind=\"major\"} 3\nnodejs_gc_duration_seconds_bucket{le=\"+Inf\",kind=\"major\"} 3\nnodejs_gc_duration_seconds_sum{kind=\"major\"} 0.00626654199976474\nnodejs_gc_duration_seconds_count{kind=\"major\"} 3\n\n# HELP http_requests_total Total number of HTTP requests\n# TYPE http_requests_total counter\nhttp_requests_total{method=\"GET\",route=\"/\",status_code=\"200\"} 3\nhttp_requests_total{method=\"GET\",route=\"/detailed\",status_code=\"200\"} 2\nhttp_requests_total{method=\"GET\",route=\"/:id\",status_code=\"200\"} 9\nhttp_requests_total{method=\"GET\",route=\"/:id\",status_code=\"404\"} 1\nhttp_requests_total{method=\"GET\",route=\"/:id\",status_code=\"400\"} 1\nhttp_requests_total{method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_requests_total{method=\"GET\",route=\"/users/1\",status_code=\"429\"} 2\n\n# HELP http_request_duration_ms Duration of HTTP requests in milliseconds\n# TYPE http_request_duration_ms histogram\nhttp_request_duration_ms_bucket{le=\"5\",method=\"GET\",route=\"/\",status_code=\"200\"} 3\nhttp_request_duration_ms_bucket{le=\"10\",method=\"GET\",route=\"/\",status_code=\"200\"} 3\nhttp_request_duration_ms_bucket{le=\"25\",method=\"GET\",route=\"/\",status_code=\"200\"} 3\nhttp_request_duration_ms_bucket{le=\"50\",method=\"GET\",route=\"/\",status_code=\"200\"} 3\nhttp_request_duration_ms_bucket{le=\"100\",method=\"GET\",route=\"/\",status_code=\"200\"} 3\nhttp_request_duration_ms_bucket{le=\"250\",method=\"GET\",route=\"/\",status_code=\"200\"} 3\nhttp_request_duration_ms_bucket{le=\"500\",method=\"GET\",route=\"/\",status_code=\"200\"} 3\nhttp_request_duration_ms_bucket{le=\"1000\",method=\"GET\",route=\"/\",status_code=\"200\"} 3\nhttp_request_duration_ms_bucket{le=\"2500\",method=\"GET\",route=\"/\",status_code=\"200\"} 3\nhttp_request_duration_ms_bucket{le=\"5000\",method=\"GET\",route=\"/\",status_code=\"200\"} 3\nhttp_request_duration_ms_bucket{le=\"+Inf\",method=\"GET\",route=\"/\",status_code=\"200\"} 3\nhttp_request_duration_ms_sum{method=\"GET\",route=\"/\",status_code=\"200\"} 1\nhttp_request_duration_ms_count{method=\"GET\",route=\"/\",status_code=\"200\"} 3\nhttp_request_duration_ms_bucket{le=\"5\",method=\"GET\",route=\"/detailed\",status_code=\"200\"} 2\nhttp_request_duration_ms_bucket{le=\"10\",method=\"GET\",route=\"/detailed\",status_code=\"200\"} 2\nhttp_request_duration_ms_bucket{le=\"25\",method=\"GET\",route=\"/detailed\",status_code=\"200\"} 2\nhttp_request_duration_ms_bucket{le=\"50\",method=\"GET\",route=\"/detailed\",status_code=\"200\"} 2\nhttp_request_duration_ms_bucket{le=\"100\",method=\"GET\",route=\"/detailed\",status_code=\"200\"} 2\nhttp_request_duration_ms_bucket{le=\"250\",method=\"GET\",route=\"/detailed\",status_code=\"200\"} 2\nhttp_request_duration_ms_bucket{le=\"500\",method=\"GET\",route=\"/detailed\",status_code=\"200\"} 2\nhttp_request_duration_ms_bucket{le=\"1000\",method=\"GET\",route=\"/detailed\",status_code=\"200\"} 2\nhttp_request_duration_ms_bucket{le=\"2500\",method=\"GET\",route=\"/detailed\",status_code=\"200\"} 2\nhttp_request_duration_ms_bucket{le=\"5000\",method=\"GET\",route=\"/detailed\",status_code=\"200\"} 2\nhttp_request_duration_ms_bucket{le=\"+Inf\",method=\"GET\",route=\"/detailed\",status_code=\"200\"} 2\nhttp_request_duration_ms_sum{method=\"GET\",route=\"/detailed\",status_code=\"200\"} 1\nhttp_request_duration_ms_count{method=\"GET\",route=\"/detailed\",status_code=\"200\"} 2\nhttp_request_duration_ms_bucket{le=\"5\",method=\"GET\",route=\"/:id\",status_code=\"200\"} 4\nhttp_request_duration_ms_bucket{le=\"10\",method=\"GET\",route=\"/:id\",status_code=\"200\"} 4\nhttp_request_duration_ms_bucket{le=\"25\",method=\"GET\",route=\"/:id\",status_code=\"200\"} 4\nhttp_request_duration_ms_bucket{le=\"50\",method=\"GET\",route=\"/:id\",status_code=\"200\"} 4\nhttp_request_duration_ms_bucket{le=\"100\",method=\"GET\",route=\"/:id\",status_code=\"200\"} 4\nhttp_request_duration_ms_bucket{le=\"250\",method=\"GET\",route=\"/:id\",status_code=\"200\"} 9\nhttp_request_duration_ms_bucket{le=\"500\",method=\"GET\",route=\"/:id\",status_code=\"200\"} 9\nhttp_request_duration_ms_bucket{le=\"1000\",method=\"GET\",route=\"/:id\",status_code=\"200\"} 9\nhttp_request_duration_ms_bucket{le=\"2500\",method=\"GET\",route=\"/:id\",status_code=\"200\"} 9\nhttp_request_duration_ms_bucket{le=\"5000\",method=\"GET\",route=\"/:id\",status_code=\"200\"} 9\nhttp_request_duration_ms_bucket{le=\"+Inf\",method=\"GET\",route=\"/:id\",status_code=\"200\"} 9\nhttp_request_duration_ms_sum{method=\"GET\",route=\"/:id\",status_code=\"200\"} 1008\nhttp_request_duration_ms_count{method=\"GET\",route=\"/:id\",status_code=\"200\"} 9\nhttp_request_duration_ms_bucket{le=\"5\",method=\"GET\",route=\"/:id\",status_code=\"404\"} 0\nhttp_request_duration_ms_bucket{le=\"10\",method=\"GET\",route=\"/:id\",status_code=\"404\"} 0\nhttp_request_duration_ms_bucket{le=\"25\",method=\"GET\",route=\"/:id\",status_code=\"404\"} 0\nhttp_request_duration_ms_bucket{le=\"50\",method=\"GET\",route=\"/:id\",status_code=\"404\"} 0\nhttp_request_duration_ms_bucket{le=\"100\",method=\"GET\",route=\"/:id\",status_code=\"404\"} 0\nhttp_request_duration_ms_bucket{le=\"250\",method=\"GET\",route=\"/:id\",status_code=\"404\"} 1\nhttp_request_duration_ms_bucket{le=\"500\",method=\"GET\",route=\"/:id\",status_code=\"404\"} 1\nhttp_request_duration_ms_bucket{le=\"1000\",method=\"GET\",route=\"/:id\",status_code=\"404\"} 1\nhttp_request_duration_ms_bucket{le=\"2500\",method=\"GET\",route=\"/:id\",status_code=\"404\"} 1\nhttp_request_duration_ms_bucket{le=\"5000\",method=\"GET\",route=\"/:id\",status_code=\"404\"} 1\nhttp_request_duration_ms_bucket{le=\"+Inf\",method=\"GET\",route=\"/:id\",status_code=\"404\"} 1\nhttp_request_duration_ms_sum{method=\"GET\",route=\"/:id\",status_code=\"404\"} 202\nhttp_request_duration_ms_count{method=\"GET\",route=\"/:id\",status_code=\"404\"} 1\nhttp_request_duration_ms_bucket{le=\"5\",method=\"GET\",route=\"/:id\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"10\",method=\"GET\",route=\"/:id\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"25\",method=\"GET\",route=\"/:id\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"50\",method=\"GET\",route=\"/:id\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"100\",method=\"GET\",route=\"/:id\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"250\",method=\"GET\",route=\"/:id\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"500\",method=\"GET\",route=\"/:id\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"1000\",method=\"GET\",route=\"/:id\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"2500\",method=\"GET\",route=\"/:id\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"5000\",method=\"GET\",route=\"/:id\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"+Inf\",method=\"GET\",route=\"/:id\",status_code=\"400\"} 1\nhttp_request_duration_ms_sum{method=\"GET\",route=\"/:id\",status_code=\"400\"} 0\nhttp_request_duration_ms_count{method=\"GET\",route=\"/:id\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"5\",method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"10\",method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"25\",method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"50\",method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"100\",method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"250\",method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"500\",method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"1000\",method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"2500\",method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"5000\",method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"+Inf\",method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_request_duration_ms_sum{method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_request_duration_ms_count{method=\"POST\",route=\"/\",status_code=\"400\"} 1\nhttp_request_duration_ms_bucket{le=\"5\",method=\"GET\",route=\"/users/1\",status_code=\"429\"} 2\nhttp_request_duration_ms_bucket{le=\"10\",method=\"GET\",route=\"/users/1\",status_code=\"429\"} 2\nhttp_request_duration_ms_bucket{le=\"25\",method=\"GET\",route=\"/users/1\",status_code=\"429\"} 2\nhttp_request_duration_ms_bucket{le=\"50\",method=\"GET\",route=\"/users/1\",status_code=\"429\"} 2\nhttp_request_duration_ms_bucket{le=\"100\",method=\"GET\",route=\"/users/1\",status_code=\"429\"} 2\nhttp_request_duration_ms_bucket{le=\"250\",method=\"GET\",route=\"/users/1\",status_code=\"429\"} 2\nhttp_request_duration_ms_bucket{le=\"500\",method=\"GET\",route=\"/users/1\",status_code=\"429\"} 2\nhttp_request_duration_ms_bucket{le=\"1000\",method=\"GET\",route=\"/users/1\",status_code=\"429\"} 2\nhttp_request_duration_ms_bucket{le=\"2500\",method=\"GET\",route=\"/users/1\",status_code=\"429\"} 2\nhttp_request_duration_ms_bucket{le=\"5000\",method=\"GET\",route=\"/users/1\",status_code=\"429\"} 2\nhttp_request_duration_ms_bucket{le=\"+Inf\",method=\"GET\",route=\"/users/1\",status_code=\"429\"} 2\nhttp_request_duration_ms_sum{method=\"GET\",route=\"/users/1\",status_code=\"429\"} 0\nhttp_request_duration_ms_count{method=\"GET\",route=\"/users/1\",status_code=\"429\"} 2\n\n# HELP http_request_errors_total Total number of HTTP request errors\n# TYPE http_request_errors_total counter\nhttp_request_errors_total{method=\"GET\",route=\"/:id\",error_type=\"client_error\"} 2\nhttp_request_errors_total{method=\"POST\",route=\"/\",error_type=\"client_error\"} 1\nhttp_request_errors_total{method=\"GET\",route=\"/users/1\",error_type=\"client_error\"} 2\n\n# HELP cache_hits_total Total number of cache hits\n# TYPE cache_hits_total counter\ncache_hits_total 4\n\n# HELP cache_misses_total Total number of cache misses\n# TYPE cache_misses_total counter\ncache_misses_total 12\n\n# HELP cache_size Current number of items in cache\n# TYPE cache_size gauge\ncache_size 1\n\n# HELP cache_operation_duration_ms Duration of cache operations in milliseconds\n# TYPE cache_operation_duration_ms histogram\ncache_operation_duration_ms_bucket{le=\"0.1\",operation=\"get\"} 16\ncache_operation_duration_ms_bucket{le=\"0.5\",operation=\"get\"} 16\ncache_operation_duration_ms_bucket{le=\"1\",operation=\"get\"} 16\ncache_operation_duration_ms_bucket{le=\"2\",operation=\"get\"} 16\ncache_operation_duration_ms_bucket{le=\"5\",operation=\"get\"} 16\ncache_operation_duration_ms_bucket{le=\"10\",operation=\"get\"} 16\ncache_operation_duration_ms_bucket{le=\"25\",operation=\"get\"} 16\ncache_operation_duration_ms_bucket{le=\"50\",operation=\"get\"} 16\ncache_operation_duration_ms_bucket{le=\"100\",operation=\"get\"} 16\ncache_operation_duration_ms_bucket{le=\"+Inf\",operation=\"get\"} 16\ncache_operation_duration_ms_sum{operation=\"get\"} 0\ncache_operation_duration_ms_count{operation=\"get\"} 16\ncache_operation_duration_ms_bucket{le=\"0.1\",operation=\"set\"} 5\ncache_operation_duration_ms_bucket{le=\"0.5\",operation=\"set\"} 5\ncache_operation_duration_ms_bucket{le=\"1\",operation=\"set\"} 5\ncache_operation_duration_ms_bucket{le=\"2\",operation=\"set\"} 5\ncache_operation_duration_ms_bucket{le=\"5\",operation=\"set\"} 5\ncache_operation_duration_ms_bucket{le=\"10\",operation=\"set\"} 5\ncache_operation_duration_ms_bucket{le=\"25\",operation=\"set\"} 5\ncache_operation_duration_ms_bucket{le=\"50\",operation=\"set\"} 5\ncache_operation_duration_ms_bucket{le=\"100\",operation=\"set\"} 5\ncache_operation_duration_ms_bucket{le=\"+Inf\",operation=\"set\"} 5\ncache_operation_duration_ms_sum{operation=\"set\"} 0\ncache_operation_duration_ms_count{operation=\"set\"} 5\n\n# HELP database_query_duration_ms Duration of database queries in milliseconds\n# TYPE database_query_duration_ms histogram\ndatabase_query_duration_ms_bucket{le=\"10\",operation=\"getUserById\"} 0\ndatabase_query_duration_ms_bucket{le=\"25\",operation=\"getUserById\"} 0\ndatabase_query_duration_ms_bucket{le=\"50\",operation=\"getUserById\"} 0\ndatabase_query_duration_ms_bucket{le=\"100\",operation=\"getUserById\"} 0\ndatabase_query_duration_ms_bucket{le=\"250\",operation=\"getUserById\"} 6\ndatabase_query_duration_ms_bucket{le=\"500\",operation=\"getUserById\"} 6\ndatabase_query_duration_ms_bucket{le=\"1000\",operation=\"getUserById\"} 6\ndatabase_query_duration_ms_bucket{le=\"2500\",operation=\"getUserById\"} 6\ndatabase_query_duration_ms_bucket{le=\"+Inf\",operation=\"getUserById\"} 6\ndatabase_query_duration_ms_sum{operation=\"getUserById\"} 1203\ndatabase_query_duration_ms_count{operation=\"getUserById\"} 6\n\n# HELP database_errors_total Total number of database errors\n# TYPE database_errors_total counter\ndatabase_errors_total{operation=\"getUserById\"} 1\n\n# HELP rate_limit_exceeded_total Total number of rate limit exceeded errors\n# TYPE rate_limit_exceeded_total counter\nrate_limit_exceeded_total{endpoint=\"/users/1\"} 2\n\n# HELP queue_length Current length of the async queue\n# TYPE queue_length gauge\nqueue_length 0\n\n# HELP queue_processing_time_ms Time spent processing queue items in milliseconds\n# TYPE queue_processing_time_ms histogram\nqueue_processing_time_ms_bucket{le=\"10\"} 0\nqueue_processing_time_ms_bucket{le=\"25\"} 0\nqueue_processing_time_ms_bucket{le=\"50\"} 0\nqueue_processing_time_ms_bucket{le=\"100\"} 0\nqueue_processing_time_ms_bucket{le=\"250\"} 0\nqueue_processing_time_ms_bucket{le=\"500\"} 0\nqueue_processing_time_ms_bucket{le=\"1000\"} 0\nqueue_processing_time_ms_bucket{le=\"+Inf\"} 0\nqueue_processing_time_ms_sum 0\nqueue_processing_time_ms_count 0\n"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Rate Limiting Tests",
+			"item": [
+				{
+					"name": "Rapid Requests (Test Rate Limit)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"1"
+							]
+						},
+						"description": "Make 11+ requests quickly to trigger rate limit (429 error). Limit: 10 req/min with burst of 5 in 10 seconds"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/v1/users/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"1"
+									]
+								}
+							},
+							"status": "Too Many Requests",
+							"code": 429,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "172"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ac-X2evry6F+vbJGCs3HDWU9Kc0U3c\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:56:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Rate limit exceeded\",\n    \"message\": \"Maximum 10 requests per minute allowed, with a burst capacity of 5 requests in 10 seconds\",\n    \"resetTime\": \"2026-01-05T09:56:41.779Z\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "API Root",
+			"item": [
+				{
+					"name": "Get API Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								""
+							]
+						},
+						"description": "Get API information and available endpoints"
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "252"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fc-MYn6CalPUTASaeSdN/6IKHZ/zDw\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Jan 2026 09:56:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"User Data API\",\n    \"version\": \"v1\",\n    \"description\": \"Express.js API with advanced caching, rate limiting, and asynchronous processing\",\n    \"endpoints\": {\n        \"health\": \"/api/v1/health\",\n        \"users\": \"/api/v1/users\",\n        \"cache\": \"/api/v1/cache\",\n        \"metrics\": \"/api/v1/metrics\"\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

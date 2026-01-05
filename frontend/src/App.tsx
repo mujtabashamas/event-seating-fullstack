@@ -63,8 +63,8 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
-        <div className="text-white text-2xl font-bold bg-white/10 backdrop-blur-lg px-8 py-6 rounded-2xl animate-pulse">
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="text-gray-700 text-xl font-medium bg-white px-8 py-6 rounded-lg shadow animate-pulse">
           Loading venue data...
         </div>
       </div>
@@ -73,9 +73,9 @@ function App() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md text-center">
-          <h2 className="text-2xl font-bold text-red-500 mb-4">Error</h2>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">Error</h2>
           <p className="text-gray-700">{error}</p>
         </div>
       </div>
@@ -84,8 +84,8 @@ function App() {
 
   if (!venue) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md text-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
           <h2 className="text-2xl font-bold text-gray-800">No venue data available</h2>
         </div>
       </div>
@@ -93,21 +93,33 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
+    <div className="min-h-screen flex flex-col bg-gray-100">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-lg border-b border-black/5 shadow-xl px-6 py-6">
-        <h1 className="text-4xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
-          {venue.name}
-        </h1>
-        <p className="text-lg text-gray-600 font-medium">
-          Select up to {maxSelections} seats
-        </p>
+      <header className="bg-white border-b border-gray-200 shadow-sm px-6 py-5">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            {venue.name}
+          </h1>
+          <div className="flex items-center gap-6 text-sm text-gray-600">
+            <p className="flex items-center gap-2">
+              <span className="font-semibold text-gray-900">Select up to {maxSelections} seats</span>
+            </p>
+            <p className="flex items-center gap-2">
+              <span className="inline-block w-3 h-3 bg-green-500 rounded"></span>
+              Available
+            </p>
+            <p className="flex items-center gap-2">
+              <span className="inline-block w-3 h-3 bg-blue-500 rounded"></span>
+              Your Selection
+            </p>
+          </div>
+        </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 p-6 overflow-hidden">
+      <main className="flex-1 max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 p-6 overflow-hidden">
         {/* Seating Map Section */}
-        <div className="bg-white rounded-2xl shadow-2xl p-6 overflow-hidden relative border-t-4 border-indigo-500">
+        <div className="bg-white rounded-lg shadow p-6 overflow-hidden">
           <SeatingMap
             venue={venue}
             selectedSeatIds={selectedSeatIds}
