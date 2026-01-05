@@ -1,12 +1,16 @@
-import { memo, useCallback, useRef } from 'react';
+import { memo, useCallback, useRef, useState, useEffect } from 'react';
 import type { Venue, SelectedSeat } from '../../types/index.js';
 import { Seat } from '../Seat/Seat.js';
+import { useTouchGestures } from '../../hooks/useTouchGestures.js';
 
 interface SeatingMapProps {
   venue: Venue;
   selectedSeatIds: Set<string>;
   onSeatClick: (seat: SelectedSeat) => void;
   onSeatFocus?: (seat: SelectedSeat) => void;
+  showHeatMap?: boolean;
+  highlightedSeatIds?: Set<string>;
+  seatStatusChanges?: Map<string, boolean>;
 }
 
 function SeatingMapComponent({
@@ -14,8 +18,42 @@ function SeatingMapComponent({
   selectedSeatIds,
   onSeatClick,
   onSeatFocus,
+  showHeatMap = false,
+  highlightedSeatIds = new Set(),
+  seatStatusChanges = new Map(),
 }: SeatingMapProps) {
   const seatRefs = useRef<Map<string, SVGGElement>>(new Map());
+  const [isMobile, setIsMobile] = useState(false);
+  const [svgScale, setSvgScale] = useState(1);
+  const [svgTranslate, setSvgTranslate] = useState({ x: 0, y: 0 });
+  const svgRef = useRef<SVGSVGElement>(null);
+
+  // Touch gestures for mobile
+  const containerRef = useTouchGestures({
+    onZoom: (scale) => {
+      setSvgScale(scale);
+    },
+    onPan: (x, y) => {
+      setSvgTranslate({ x, y });
+    },
+    minScale: 0.5,
+    maxScale: 3,
+    maxPanLeft: 320,   // Pan left to see right side content (more room)
+    maxPanRight: 0,  // Pan right to see left side content (less room - prevents white space)
+    maxPanUp: 150,     // Pan up to see bottom content
+    maxPanDown: 0,   // Pan down to see top content
+  });
+
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024); // lg breakpoint
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Find next seat in a direction for keyboard navigation
   const findNextSeat = useCallback((currentSeatId: string, direction: 'ArrowUp' | 'ArrowDown' | 'ArrowLeft' | 'ArrowRight'): string | null => {
@@ -141,22 +179,28 @@ function SeatingMapComponent({
     <div className="w-full h-full flex flex-col">
       {/* Stage indicator */}
       <div className="flex justify-center mb-4">
-        <div className="bg-gray-800 text-white px-8 py-3 rounded-lg font-semibold text-sm shadow-md border-2 border-gray-700">
+        <div className="bg-gray-800 dark:bg-gray-700 text-white dark:text-gray-100 px-8 py-3 rounded-lg font-semibold text-sm shadow-md border-2 border-gray-700 dark:border-gray-500">
           🎭 STAGE
         </div>
       </div>
       
       {/* Seating map */}
-      <div className="flex-1 overflow-auto bg-gray-50 rounded-lg border-2 border-gray-200 relative touch-pan-x touch-pan-y">
+      <div 
+        ref={containerRef}
+        className="flex-1 overflow-auto bg-gray-50 dark:bg-dark-surface rounded-lg border-2 border-gray-200 dark:border-dark-border relative touch-pan-x touch-pan-y"
+      >
         <svg
+          ref={svgRef}
           className="w-full h-auto min-h-[400px] sm:min-h-[500px] lg:h-[700px] block"
-          viewBox={`0 0 ${venue.map.width * 0.8} ${venue.map.height * 0.8}`}
+          viewBox={`0 0 ${venue.map.width * (isMobile ? 0.45 : 0.8)} ${venue.map.height * (isMobile ? 0.45 : 0.8)}`}
           preserveAspectRatio="xMidYMid meet"
           aria-label={`Seating map for ${venue.name}`}
           role="img"
         >
           <title>{venue.name} Seating Map</title>
-          
+          <g
+            transform={`scale(${svgScale}) translate(${svgTranslate.x / svgScale}, ${svgTranslate.y / svgScale})`}
+          >
           {/* Section labels and seats */}
           {venue.sections.map((section) => {
             // Calculate section boundaries for label placement
@@ -174,9 +218,9 @@ function SeatingMapComponent({
                   y={sectionTopY - 50}
                   fontSize="20"
                   fontWeight="bold"
-                  fill="#374151"
+                  fill="currentColor"
                   textAnchor="middle"
-                  className="select-none"
+                  className="select-none text-gray-700 dark:text-gray-300"
                 >
                   {section.label}
                 </text>
@@ -194,9 +238,9 @@ function SeatingMapComponent({
                         y={firstSeatInRow.y + 5}
                         fontSize="16"
                         fontWeight="600"
-                        fill="#6b7280"
+                        fill="currentColor"
                         textAnchor="middle"
-                        className="select-none"
+                        className="select-none text-gray-600 dark:text-gray-400"
                       >
                         {row.index}
                       </text>
@@ -217,6 +261,9 @@ function SeatingMapComponent({
                               seatRefs.current.delete(seat.id);
                             }
                           }}
+                          showHeatMap={showHeatMap}
+                          isHighlighted={highlightedSeatIds.has(seat.id)}
+                          statusChanged={seatStatusChanges.get(seat.id) || false}
                         />
                       ))}
                       
@@ -226,9 +273,9 @@ function SeatingMapComponent({
                         y={lastSeatInRow.y + 5}
                         fontSize="16"
                         fontWeight="600"
-                        fill="#6b7280"
+                        fill="currentColor"
                         textAnchor="middle"
-                        className="select-none"
+                        className="select-none text-gray-600 dark:text-gray-400"
                       >
                         {row.index}
                       </text>
@@ -238,11 +285,12 @@ function SeatingMapComponent({
               </g>
             );
           })}
+          </g>
         </svg>
       </div>
 
       {/* Legend */}
-      <div className="mt-4 flex flex-wrap items-center gap-4 text-sm">
+      <div className="mt-4 flex flex-wrap items-center gap-4 text-sm dark:text-dark-text-muted">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 relative">
             <svg viewBox="0 0 20 20" className="w-full h-full">
@@ -253,7 +301,7 @@ function SeatingMapComponent({
               <rect x="17" y="6" width="2" height="5" rx="0.5" fill="#16a34a"/>
             </svg>
           </div>
-          <span className="font-medium text-gray-700">Available</span>
+          <span className="font-medium text-gray-700 dark:text-dark-text-muted">Available</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -266,7 +314,7 @@ function SeatingMapComponent({
               <rect x="17" y="6" width="2" height="5" rx="0.5" fill="#2563eb"/>
             </svg>
           </div>
-          <span className="font-medium text-gray-700">Selected</span>
+          <span className="font-medium text-gray-700 dark:text-dark-text-muted">Selected</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -279,7 +327,7 @@ function SeatingMapComponent({
               <rect x="17" y="6" width="2" height="5" rx="0.5" fill="#dc2626"/>
             </svg>
           </div>
-          <span className="font-medium text-gray-700">Sold</span>
+          <span className="font-medium text-gray-700 dark:text-dark-text-muted">Sold</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -292,7 +340,7 @@ function SeatingMapComponent({
               <rect x="17" y="6" width="2" height="5" rx="0.5" fill="#ca8a04"/>
             </svg>
           </div>
-          <span className="font-medium text-gray-700">Reserved</span>
+          <span className="font-medium text-gray-700 dark:text-dark-text-muted">Reserved</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -305,7 +353,7 @@ function SeatingMapComponent({
               <rect x="17" y="6" width="2" height="5" rx="0.5" fill="#6b7280"/>
             </svg>
           </div>
-          <span className="font-medium text-gray-700">Held</span>
+          <span className="font-medium text-gray-700 dark:text-dark-text-muted">Held</span>
         </div>
       </div>
     </div>

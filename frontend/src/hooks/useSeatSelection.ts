@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import type { SelectedSeat, Venue } from '../types/index.js';
 import { saveSelection, loadSelection, clearSelection } from '../utils/storage.js';
 
@@ -75,6 +75,24 @@ export function useSeatSelection() {
     clearSelection();
   }, []);
 
+  const selectMultiple = useCallback((seats: SelectedSeat[]) => {
+    setSelectedSeats((prev) => {
+      const newSelection = new Map(prev);
+      
+      // Add seats that aren't already selected and within limit
+      for (const seat of seats) {
+        if (!newSelection.has(seat.id) && newSelection.size < MAX_SELECTIONS) {
+          newSelection.set(seat.id, seat);
+        }
+      }
+
+      // Persist to localStorage
+      saveSelection(Array.from(newSelection.keys()));
+
+      return newSelection;
+    });
+  }, []);
+
   const getSelectedSeatsArray = useCallback((): SelectedSeat[] => {
     return Array.from(selectedSeats.values());
   }, [selectedSeats]);
@@ -90,6 +108,7 @@ export function useSeatSelection() {
     clearAll,
     canSelectMore,
     initializeWithVenue,
+    selectMultiple,
   };
 }
 
