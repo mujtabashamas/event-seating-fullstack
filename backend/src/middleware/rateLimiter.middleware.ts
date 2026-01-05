@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import { RateLimiter } from './rateLimiter.js';
 import { appConfig } from '../config/app.js';
+import { MetricsService } from '../services/metrics.service.js';
 
 // Initialize rate limiter with config values
 const rateLimiter = new RateLimiter(
@@ -8,6 +9,8 @@ const rateLimiter = new RateLimiter(
   appConfig.rateLimit.burstCapacity,
   appConfig.rateLimit.burstWindowSeconds
 );
+
+const metricsService = MetricsService.getInstance();
 
 // Cleanup rate limiter periodically
 setInterval(() => {
@@ -24,6 +27,11 @@ export function rateLimiterMiddleware(
   const result = rateLimiter.checkLimit(identifier);
 
   if (!result.allowed) {
+    // Record rate limit exceeded metric
+    metricsService.rateLimitExceeded.inc({
+      endpoint: req.path,
+    });
+
     res.status(429).json({
       error: 'Rate limit exceeded',
       message: `Maximum ${appConfig.rateLimit.maxRequestsPerMinute} requests per minute allowed, with a burst capacity of ${appConfig.rateLimit.burstCapacity} requests in ${appConfig.rateLimit.burstWindowSeconds} seconds`,

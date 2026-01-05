@@ -1,11 +1,13 @@
 import type { CacheEntry, CacheStats, User } from '../types/index.js';
 import { appConfig } from '../config/app.js';
+import { MetricsService } from './metrics.service.js';
 
 export class CacheService {
   private cache: Map<number, CacheEntry<User>>;
   private stats: CacheStats;
   private ttl: number; // TTL in milliseconds
   private cleanupInterval: NodeJS.Timeout | null = null;
+  private metricsService: MetricsService;
 
   constructor(ttlSeconds: number = 60) {
     this.cache = new Map();
@@ -17,16 +19,22 @@ export class CacheService {
       averageResponseTime: 0,
       totalRequests: 0,
     };
+    this.metricsService = MetricsService.getInstance();
 
     // Start background cleanup task
     this.startCleanup();
   }
 
   get(key: number): User | null {
+    const start = Date.now();
     const entry = this.cache.get(key);
 
     if (!entry) {
       this.incrementMiss();
+      this.metricsService.cacheOperationDuration.observe(
+        { operation: 'get' },
+        Date.now() - start
+      );
       return null;
     }
 
@@ -36,6 +44,10 @@ export class CacheService {
       this.cache.delete(key);
       this.updateSize();
       this.incrementMiss();
+      this.metricsService.cacheOperationDuration.observe(
+        { operation: 'get' },
+        Date.now() - start
+      );
       return null;
     }
 
@@ -43,20 +55,27 @@ export class CacheService {
     this.cache.delete(key);
     this.cache.set(key, entry);
     this.incrementHit();
+    this.metricsService.cacheOperationDuration.observe(
+      { operation: 'get' },
+      Date.now() - start
+    );
     return entry.data;
   }
 
   private incrementHit(): void {
     this.stats.hits++;
     this.stats.totalRequests++;
+    this.metricsService.cacheHitsTotal.inc();
   }
 
   private incrementMiss(): void {
     this.stats.misses++;
     this.stats.totalRequests++;
+    this.metricsService.cacheMissesTotal.inc();
   }
 
   set(key: number, value: User): void {
+    const start = Date.now();
     const now = Date.now();
     const entry: CacheEntry<User> = {
       data: value,
@@ -69,6 +88,11 @@ export class CacheService {
       this.cache.set(key, entry);
       this.updateSize();
     }
+
+    this.metricsService.cacheOperationDuration.observe(
+      { operation: 'set' },
+      Date.now() - start
+    );
   }
 
   clear(): void {
@@ -96,6 +120,7 @@ export class CacheService {
 
   private updateSize(): void {
     this.stats.size = this.cache.size;
+    this.metricsService.cacheSize.set(this.cache.size);
   }
 
   private startCleanup(): void {
