@@ -1,0 +1,2 @@
+export { SeatingMap } from './SeatingMap';
+

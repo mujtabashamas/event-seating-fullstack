@@ -1,0 +1,2 @@
+export { SeatDetails } from './SeatDetails';
+
